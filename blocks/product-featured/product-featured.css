@@ -1,0 +1,42 @@
+.product-featured-container {
+    background-color: var(--color-neutral-500);
+}
+
+.product-featured {
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.product-featured p {
+    margin: 0;
+}
+
+.product-featured > div > div {
+    display: grid;
+    gap: 1.5rem 2rem;
+    grid-template-columns: 25rem auto;
+}
+
+.product-featured-title {
+    grid-column: 1 / 3;
+    margin: 0;
+    width: 100%;
+    font-size: var(--font-size-70);
+    font-weight: var(--font-weight-40);
+}
+
+.product-featured-description {
+    margin-top: 0;
+    font-size: var(--font-size-40);
+    font-weight: var(--font-weight-30);
+    line-height: 1.3;
+}
+
+.product-featured-image-wrapper {
+    grid-row: 2 / 4;
+}
+
+.product-featured-price {
+    font-size: var(--font-size-50);
+    font-weight: var(--font-weight-50);
+}
