@@ -20,7 +20,8 @@
 }
 
 .columns.testcssclass {
-  background-color: pink;
+  padding: var(--spacing-xsmall);
+  background-color: var(--color-neutral-300);
 }
 
 @media (width >= 900px) {
