@@ -21,7 +21,7 @@
 
 .columns.testcssclass {
   padding: var(--spacing-xsmall);
-  background-color: pink;
+  background-color: var(--color-neutral-300);
 }
 
 @media (width >= 900px) {
