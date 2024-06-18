@@ -19,11 +19,6 @@
   display: block;
 }
 
-.columns.testcssclass {
-  padding: var(--spacing-xsmall);
-  background-color: pink;
-}
-
 @media (width >= 900px) {
   .columns > div {
     align-items: center;
