@@ -115,8 +115,6 @@ export async function performCatalogServiceQuery(query, variables) {
     .replace(/\s\s+/g, ' '));
   apiCall.searchParams.append('variables', variables ? JSON.stringify(variables) : null);
 
-  console.log('headers', headers);
-
   const response = await fetch(apiCall, {
     method: 'GET',
     headers,
@@ -137,7 +135,6 @@ export function getSignInToken() {
 }
 
 export async function performMonolithGraphQLQuery(query, variables, GET = true, USE_TOKEN = false) {
-  console.log('sandbox');
   const GRAPHQL_ENDPOINT = await getConfigValue('commerce-core-endpoint');
 
   const headers = {
