@@ -2,7 +2,6 @@ export * from './Skeleton';
 export * from './UIProvider';
 export * from './Incrementer';
 export * from './Input';
-export * from './InputDate';
 export * from './Image';
 export * from './Divider';
 export * from './Icon';

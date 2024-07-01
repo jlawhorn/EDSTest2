@@ -115,9 +115,6 @@ export declare const definition: {
                     label: string;
                 };
             };
-            InputDate: {
-                picker: string;
-            };
         };
     };
     en_US: {
@@ -234,9 +231,6 @@ export declare const definition: {
                 updating: {
                     label: string;
                 };
-            };
-            InputDate: {
-                picker: string;
             };
         };
     };
@@ -356,9 +350,6 @@ export declare const getDefinitionByLanguage: (lang: Lang) => {
             updating: {
                 label: string;
             };
-        };
-        InputDate: {
-            picker: string;
         };
     };
 };

@@ -1,4 +1,4 @@
-import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends Error{constructor(e){super(e.map(r=>r.message).join(" ")),this.name="FetchError"}}class y extends Error{constructor(e){super(`Missing argument: ${e}`)}}class a extends Error{constructor(){super("Order not found")}}const{setEndpoint:_,setFetchGraphQlHeader:O,removeFetchGraphQlHeader:f,setFetchGraphQlHeaders:b,fetchGraphQl:c,getConfig:w}=new m().getMethods(),i=`
+import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends Error{constructor(e){super(e.map(r=>r.message).join(" ")),this.name="FetchError"}}class _ extends Error{constructor(e){super(`Missing argument: ${e}`)}}class a extends Error{constructor(){super("Order not found")}}const{setEndpoint:y,setFetchGraphQlHeader:O,removeFetchGraphQlHeader:f,setFetchGraphQlHeaders:b,fetchGraphQl:u,getConfig:w}=new m().getMethods(),c=`
   fragment guestOrderData on CustomerOrder {
     number
     status
@@ -29,7 +29,6 @@ import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends E
     }
     billing_address {
       firstname
-      middlename
       lastname
       street
       city
@@ -38,11 +37,9 @@ import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends E
       country_code
       region
       region_id
-      company
     }
     shipping_address {
       firstname
-      middlename
       lastname
       street
       city
@@ -51,7 +48,6 @@ import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends E
       country_code
       region
       region_id
-      company
     }
     items {
       __typename
@@ -99,15 +95,15 @@ import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends E
       ...guestOrderData
     }
   }
-  ${i}
-`,$=async t=>{const{data:e,errors:r}=await c(l,{variables:{...t}});if(r)throw new o(r);const s=e==null?void 0:e.guestOrder;if(!s)throw new a;return s},g=`
+  ${c}
+`,$=async t=>{const{data:e,errors:r}=await u(l,{variables:{...t}});if(r)throw new o(r);const s=e==null?void 0:e.guestOrder;if(!s)throw new a;return s},g=`
   query guestOrderByToken($token: String!) {
     guestOrderByToken(input: {token: $token}) {
       ...guestOrderData
     }
   }
-  ${i}
-`,v=async t=>{const{data:e,errors:r}=await c(g,{variables:{token:t}});if(r)throw new o(r);const s=e==null?void 0:e.guestOrderByToken;if(!!!s)throw new a;return s},p=`
+  ${c}
+`,v=async t=>{const{data:e,errors:r}=await u(g,{variables:{token:t}});if(r)throw new o(r);const s=e==null?void 0:e.guestOrderByToken;if(!!!s)throw new a;return s},p=`
   query customerOrder($number: String!) {
     customer {
       orders(filter: { number: { eq: $number } }) {
@@ -118,6 +114,6 @@ import{FetchGraphQL as m}from"@dropins/tools/fetch-graphql.js";class o extends E
       }
     }
   }
-  ${i}
-`,k=async t=>{var n,u,d;const{data:e,errors:r}=await c(p,{variables:{number:t}});if(r)throw new o(r);const s=(d=(u=(n=e==null?void 0:e.customer)==null?void 0:n.orders)==null?void 0:u.items)==null?void 0:d[0];if(!s)throw new a;return s};export{o as F,y as M,a as O,O as a,b,$ as c,v as d,k as e,c as f,w as g,f as r,_ as s};
+  ${c}
+`,k=async t=>{var n,i,d;const{data:e,errors:r}=await u(p,{variables:{number:t}});if(r)throw new o(r);const s=(d=(i=(n=e==null?void 0:e.customer)==null?void 0:n.orders)==null?void 0:i.items)==null?void 0:d[0];if(!s)throw new a;return s};export{o as F,_ as M,a as O,O as a,b,$ as c,v as d,k as e,u as f,w as g,f as r,y as s};
 //# sourceMappingURL=customerOrder.js.map

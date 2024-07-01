@@ -112,9 +112,6 @@ declare const _default: {
       "updating": {
         "label": "{product} is updating"
       }
-    },
-    "InputDate": {
-      "picker": "Select a date"
     }
   }
 }
