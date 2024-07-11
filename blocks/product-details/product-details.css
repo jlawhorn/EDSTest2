@@ -1,1 +1,5 @@
-/* stylelint-disable no-empty-source */
+/* stylelint-disable no-empty-source, selector-class-pattern */
+
+.pdp-carousel__slide--horizontal {
+    align-self: flex-start;
+}
