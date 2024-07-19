@@ -107,7 +107,47 @@ function setMetaTags(product) {
   createMetaTag('twitter:image', metaImage, 'name');
 }
 
+const headers = {
+  'Content-Type': 'application/json',
+  'Magento-Environment-Id': await getConfigValue('commerce-environment-id'),
+  'Magento-Website-Code': await getConfigValue('commerce-website-code'),
+  'Magento-Store-View-Code': await getConfigValue('commerce-store-view-code'),
+  'Magento-Store-Code': await getConfigValue('commerce-store-code'),
+  'Magento-Customer-Group': await getConfigValue('commerce-customer-group'),
+  'x-api-key': await getConfigValue('commerce-x-api-key'),
+};
+
+const getRating = async () => {
+  const variables = { sku: getSkuFromUrl() };
+  const query = `query {
+    products(search: "TEST12345") {
+      items {
+        rating_summary
+      }
+    }
+  }`;
+  const apiCall = new URL(await getConfigValue('commerce-core-endpoint'));
+  apiCall.searchParams.append('query', query.replace(/(?:\r\n|\r|\n|\t|[\s]{4})/g, ' ')
+    .replace(/\s\s+/g, ' '));
+  apiCall.searchParams.append('variables', variables ? JSON.stringify(variables) : null);
+
+  const response = await fetch(apiCall, {
+    method: 'GET',
+    headers,
+  });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const queryResponse = await response.json();
+
+  return queryResponse.data?.products?.items;
+};
+
 export default async function decorate(block) {
+  const rating = await getRating();
+
   if (!window.getProductPromise) {
     window.getProductPromise = getProduct(this.props.sku);
   }
@@ -175,15 +215,7 @@ export default async function decorate(block) {
   productApi.setEndpoint(await getConfigValue('commerce-endpoint'));
 
   // Set Fetch Headers (Service)
-  productApi.setFetchGraphQlHeaders({
-    'Content-Type': 'application/json',
-    'Magento-Environment-Id': await getConfigValue('commerce-environment-id'),
-    'Magento-Website-Code': await getConfigValue('commerce-website-code'),
-    'Magento-Store-View-Code': await getConfigValue('commerce-store-view-code'),
-    'Magento-Store-Code': await getConfigValue('commerce-store-code'),
-    'Magento-Customer-Group': await getConfigValue('commerce-customer-group'),
-    'x-api-key': await getConfigValue('commerce-x-api-key'),
-  });
+  productApi.setFetchGraphQlHeaders(headers);
 
   events.on('eds/lcp', () => {
     if (!product) {

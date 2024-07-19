@@ -61,16 +61,17 @@ function renderPlaceholder(block) {
 
 function renderItem(unitId, product) {
   const urlKey = product.url.split('/').pop().replace('.html', '');
-  let image = product.images[0]?.url;
-  image = image.replace('http://', '//');
+  if (product.images.length) {
+    let image = product.images[0]?.url;
+    image = image.replace('http://', '//');
 
-  const clickHandler = () => {
-    window.adobeDataLayer.push((dl) => {
-      dl.push({ event: 'recs-item-click', eventInfo: { ...dl.getState(), unitId, productId: parseInt(product.externalId, 10) || 0 } });
-    });
-  };
+    const clickHandler = () => {
+      window.adobeDataLayer.push((dl) => {
+        dl.push({ event: 'recs-item-click', eventInfo: { ...dl.getState(), unitId, productId: parseInt(product.externalId, 10) || 0 } });
+      });
+    };
 
-  const item = document.createRange().createContextualFragment(`<div class="product-grid-item">
+    const item = document.createRange().createContextualFragment(`<div class="product-grid-item">
     <a href="/products/${urlKey}/${product.sku.toLowerCase()}">
       <picture>
         <source type="image/webp" srcset="${image}?width=300&format=webply&optimize=medium" />
@@ -79,9 +80,11 @@ function renderItem(unitId, product) {
       <span>${product.name}</span>
     </a>
   </div>`);
-  item.querySelector('a').addEventListener('click', clickHandler);
+    item.querySelector('a').addEventListener('click', clickHandler);
 
-  return item;
+    return item;
+  }
+  return document.createElement('span');
 }
 
 function renderItems(block, results) {
