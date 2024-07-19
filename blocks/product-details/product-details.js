@@ -148,10 +148,25 @@ const getRating = async () => {
 };
 
 export default async function decorate(block) {
-  const rating = await getRating();
+  const ratingArray = await getRating();
 
-  if (rating.length) {
-    console.log(rating[0]?.rating_summary);
+  if (ratingArray.length) {
+    const rating = ratingArray[0]?.rating_summary;
+    if (typeof rating === 'number') {
+      let stars = '';
+      if (rating > 80) {
+        stars = '★★★★★';
+      } else if (rating > 60) {
+        stars = '★★★★☆';
+      } else if (rating > 40) {
+        stars = '★★★☆☆';
+      } else if (rating > 20) {
+        stars = '★★☆☆☆';
+      } else {
+        stars = '★☆☆☆☆';
+      }
+      console.log('Rating: ', stars);
+    }
   }
   if (!window.getProductPromise) {
     window.getProductPromise = getProduct(this.props.sku);
