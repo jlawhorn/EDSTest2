@@ -1,5 +1,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-console */
+
 import { events } from '@dropins/tools/event-bus.js';
 import { initializers } from '@dropins/tools/initializer.js';
 import * as productApi from '@dropins/storefront-pdp/api.js';
@@ -148,6 +150,9 @@ const getRating = async () => {
 export default async function decorate(block) {
   const rating = await getRating();
 
+  if (rating.length) {
+    console.log(rating[0]?.rating_summary);
+  }
   if (!window.getProductPromise) {
     window.getProductPromise = getProduct(this.props.sku);
   }
