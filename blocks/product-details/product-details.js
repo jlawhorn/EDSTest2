@@ -119,6 +119,8 @@ const headers = {
   'x-api-key': await getConfigValue('commerce-x-api-key'),
 };
 
+let ratingValue = '';
+
 const getRating = async () => {
   const variables = { sku: getSkuFromUrl() };
   const query = `query {
@@ -151,23 +153,19 @@ export default async function decorate(block) {
   const ratingArray = await getRating();
 
   if (ratingArray.length) {
-    const rating = ratingArray[0]?.rating_summary;
-    if (typeof rating === 'number') {
-      let stars = '';
-      if (rating > 80) {
-        stars = '★★★★★';
-      } else if (rating > 60) {
-        stars = '★★★★☆';
-      } else if (rating > 40) {
-        stars = '★★★☆☆';
-      } else if (rating > 20) {
-        stars = '★★☆☆☆';
-      } else {
-        stars = '★☆☆☆☆';
-      }
-      console.log('Rating: ', stars);
+    const ratingNumber = ratingArray[0]?.rating_summary;
+    if (typeof ratingNumber === 'number') {
+      const totalStars = 5;
+      const filledStarCharacter = '★';
+      const emptyStarCharacter = '☆';
+      const filledStarValue = Math.ceil((ratingNumber / 100) * 5);
+      const starValue = [
+        ...Array(filledStarValue).fill(filledStarCharacter),
+        ...Array(totalStars - filledStarValue).fill(emptyStarCharacter)];
+      ratingValue = `<span class="starContainer" title="Rating: ${ratingNumber}/100 positive ratings">${starValue.join('')}</span>`;
     }
   }
+
   if (!window.getProductPromise) {
     window.getProductPromise = getProduct(this.props.sku);
   }
@@ -264,6 +262,13 @@ export default async function decorate(block) {
             gap: 'small',
           },
           slots: {
+            Title: (ctx) => {
+              // title decoration
+              const rating = document.createElement('div');
+              rating.classList.add('ratings');
+              rating.innerHTML = ratingValue;
+              ctx.appendSibling(rating);
+            },
             Actions: (ctx) => {
               // Add to Cart Button
               ctx.appendButton((next, state) => {
